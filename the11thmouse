@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<!-- This is based on DillingerLee's great template here:
+https://github.com/Team-Code/KA_Offline -->
+<html> 
+ <head>
+    <title>Processing.JS inside Webpages: Template</title> 
+</head>
+ <body>
+    <p align="center"> 
+	<!--This draws the Canvas on the webpage -->
+      <canvas id="mycanvas"></canvas> 
+    </p>
+ </body>
+ 
+ <!-- Run all the JavaScript stuff -->
+ <!-- Include the processing.js library -->
+ <!-- See https://khanacademy.zendesk.com/hc/en-us/articles/202260404-What-parts-of-ProcessingJS-does-Khan-Academy-support- for differences -->
+ <script src="https://cdn.jsdelivr.net/processing.js/1.4.8/processing.min.js"></script> 
+ 
+ <script>
+    var sketchProc = function(processingInstance) {
+     with (processingInstance) {
+        size(400, 400); 
+        frameRate(30);
+        
+		background(207, 233, 247);
+       //image(getImage("creatures/Winston"), 137, 137, 125, 125);
+
+noFill();
+ellipse(200, 200, 300, 300);
+
+// This section of code creates the array representing mice
+var miceArray = [1];
+for (var i = 1; i < 12; i++){
+    miceArray[i] = 0;
+}
+
+/* This section of code needs to take an array
+find the 11th element of the array based on a starting point, repeating if necessary
+Make a new array that is shorter, removing the 11th element */
+
+var newIndex;
+var eatMice = function(startingPoint, array){
+    newIndex = startingPoint + 11;
+    var elements = array.length; 
+    while (newIndex >= elements){
+        newIndex = newIndex - elements;
+    }
+    miceArray.splice(newIndex, 1);
+};
+
+// This section of code needs to determine if the wrong mouse was eaten
+// It should do this by searching for a 1 in the array
+
+var isHopeAlive = false;
+var hope = function(array){
+    var counter = 0;
+    for (var i = 0; i < miceArray.length; i++){
+        counter = counter + miceArray[i];
+    }
+    if (counter === 1){
+        isHopeAlive = true;
+    }
+    else{
+        isHopeAlive = false;
+    }
+};
+
+var pleaseWork = function(startingMouse){
+    newIndex = startingMouse;
+        do{
+    eatMice(newIndex, miceArray);
+    hope(miceArray);
+    }
+    while(isHopeAlive === true);
+};
+
+
+/*
+Repeat steps 1, 2, and 3 until one item is left
+verify if that last item is the correct item or not
+*/
+    }};
+
+    // Get the canvas that Processing-js will use
+    var canvas = document.getElementById("mycanvas"); 
+    // Pass the function sketchProc (defined in myCode.js) to Processing's constructor.
+    var processingInstance = new Processing(canvas, sketchProc); 
+ </script>
+
+</html>
+
+
